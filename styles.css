@@ -1,0 +1,796 @@
+/*Global Ruleset*/
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
+
+:root {
+    --all-text-font: 'Inter Tight', 'Helvetica', sans-serif;
+    --timer-quote-font: 'Michroma', sans-serif;
+    --text-color: #3D4C52;
+    --hover-text-transition: font-weight 150ms ease-out;
+    --smooth-appearance-transition: opacity 200ms ease-out, visibility 200ms ease-out;
+    --timer-text-size: 1.6rem;
+    --bg-gradient: linear-gradient(to bottom, #ACC3AD, white, white);
+    --theme-accent-color: #ACC3AD;
+    --dark-theme-accent-color: ;
+}
+
+html {
+    font-family: var(--all-text-font);
+    color: var(--text-color);
+    background-image: var(--bg-gradient);
+    background-size: cover;
+}
+
+body {
+    min-height: 100vh;
+    max-width: 100vw;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas:
+    "header header"
+    "timer-setup quote-generator-settings"
+    "signature signature";
+}
+
+.button-style {
+    font-family: var(--all-text-font);
+    font-size: var(--timer-text-size);
+    color: var(--text-color);
+    background: transparent;
+    text-align: left;
+    border: none;
+    cursor: pointer;
+    transition: var(--smooth-appearance-transition), var(--hover-text-transition);
+}
+
+header {
+    grid-area: header;
+    padding: 1rem 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.header-name {
+    margin-left: 0;
+}
+
+.header-name h1 {
+    font-size: 4rem;
+    line-height: 0.8;
+    color: var(--dark-theme-accent-color);
+}
+
+.nav-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 0;
+}
+
+.nav-container ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+}
+
+.nav-container li {
+    padding: 0 1.3rem;
+    font-size: 1.3rem;
+}
+
+.nav-container a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 400;
+    transition: var(--hover-text-transition);
+    cursor: pointer;
+}
+
+.nav-container a:hover {
+    transition: var(--hover-text-transition);
+    font-weight: 700;
+}
+
+.nav-container a.settings-link-selected {
+    font-weight: 700;
+}
+
+.timer-setup {
+    grid-area: timer-setup;
+    display: grid;
+    grid-template-columns: 1fr 350px 1fr;
+    grid-template-rows: 0.8fr 90px 96.3px 128.8px 58px 31px 1fr;
+    grid-template-areas:
+    ". . ."
+    ". timer-instruction ."
+    ". timer-selector ."
+    ". timer ."
+    ". timer-controls ."
+    ". progress-bar ."
+    ". . .";
+    margin-left: 6rem;;
+}
+
+.timer-instruction {
+    grid-area: timer-instruction;
+    font-size: var(--timer-text-size);
+    font-weight: 700;
+    border-left: var(--text-color) 5px solid;
+    padding-left: 7px;
+    max-height: fit-content;
+}
+
+.timer-selector{
+    grid-area: timer-selector;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.timer-selector ul {
+    display: flex;
+    flex-direction: column;
+}
+
+.timer-selector li {
+    font-size: var(--timer-text-size);
+    cursor: pointer;
+    transition: var(--hover-text-transition);
+}
+
+.timer-selector li:hover {
+    transition: var(--hover-text-transition);
+    font-weight: 700;
+}
+
+.timer-selected {
+    font-weight: 700;
+}
+
+.timer {
+    grid-area: timer;
+    opacity: 0;
+    visibility: hidden; /* Use visibility to reserve space */
+    display: flex; 
+    font-family: var(--timer-quote-font);
+    font-size: 5.5rem;
+    transition: var(--smooth-appearance-transition);
+    color: var(--dark-theme-accent-color);
+}
+
+.timer.visible {
+    opacity: 1;/* Fully visible */
+    visibility: visible; /* Visible when class is added */
+}
+
+#timer-controls {
+    grid-area: timer-controls;
+    position: relative;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#start-button, #pause-button {
+    position: absolute;
+    opacity: 0;
+    visibility: hidden; /* Use visibility to reserve space */
+}
+
+#start-button.visible, #pause-button.visible {
+    opacity: 1; /* Fully visible */
+    visibility: visible; /* Visible when class is added */
+}
+
+#start-button:hover, #pause-button:hover {
+    transition: var(--hover-text-transition);
+    font-weight: 700;
+}
+
+#progress-bar {
+    grid-area: progress-bar;
+    opacity: 0;
+    visibility: hidden; /* Use visibility to reserve space */
+    display: flex;
+    position: relative;
+    height: 2rem;
+    width: 100%;
+    background-color: var(--text-color);
+    transition: var(--smooth-appearance-transition);
+}
+
+#progress-bar.visible {
+    opacity: 1; /* Fully visible */
+    visibility: visible; /* Visible when class is added */
+}
+
+#progress-percentage {
+    font-size: var(--timer-text-size);
+    color: white;
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+}
+
+#progress-indicator {
+    height: 100%;
+    width: 0%;
+    background-color: var(--theme-accent-color);
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    color: var(--dark-theme-accent-color);
+}
+
+/*Quote generator*/
+
+#quote-generator {
+    grid-area: quote-generator-settings;
+    display: grid;
+    grid-template-columns: 4fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+    "quote ."
+    "quote-author .";
+    margin-right: 6rem;
+    margin-bottom: 6rem;
+}
+
+#quote, #quote-author {
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+    color: var(--dark-theme-accent-color);
+}
+
+#quote.visible, #quote-author.visible {
+    opacity: 1;
+}
+
+#quote {
+    grid-area: quote;
+    font-family: var(--timer-quote-font);
+    font-size: 2rem;
+    margin-top: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+   
+}
+
+#quote-author {
+    grid-area: quote-author;
+    font-family: var(--timer-quote-font);
+    font-size: 2rem;
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+}
+
+/* Settings */
+
+#settings-content {
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--smooth-appearance-transition);
+    grid-area: quote-generator-settings;
+    margin-top: 4rem;
+    margin-right: 6rem;
+    margin-bottom: 6rem;
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+}
+
+#settings-content.visible {
+    opacity: 1;
+    visibility: visible;
+    transition: var(--smooth-appearance-transition);
+}
+
+#timer-settings {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr) 0.5fr;
+    grid-template-rows: repeat(3, auto);
+    grid-template-areas:
+    "timer-settings-instruction timer-settings-instruction close-button ."
+    "pomodoro-settings short-break-settings long-break-settings ."
+    "pomodoro-duration short-break-duration long-break-duration .";
+    font-size: var(--timer-text-size);
+    margin-bottom: 2rem;
+}
+
+#timer-settings-instruction {
+    grid-area: timer-settings-instruction;
+    margin-top: 1.6rem;
+}
+
+#close-button {
+    grid-area: close-button;
+    display: flex;
+    justify-content: flex-end;
+    align-items: baseline;
+    margin-top: 1.6rem;
+}
+
+#close-button i {
+    color: var(--theme-accent-color);
+    cursor: pointer;
+    transition: color 200ms ease-out;
+    padding: 5px;
+}
+
+#close-button i:hover {
+    color:#3D4C52;
+    transition: color 200ms ease-out;
+}
+
+.settings-instruction {
+    font-size: var(--timer-text-size);
+    font-weight: 700;
+    border-left: var(--text-color) 5px solid;
+    padding-left: 7px;
+    margin-bottom: 2rem;
+}
+
+#pomodoro-settings {
+    grid-area: pomodoro-settings;
+    display: flex;
+    align-items: flex-end;
+}
+
+#short-break-settings {
+    grid-area: short-break-settings;
+    display: flex;
+    align-items: flex-end;
+}
+
+#long-break-settings {
+    grid-area: long-break-settings;
+    display: flex;
+    align-items: flex-end;
+}
+
+#pomodoroInput {
+    grid-area: pomodoro-duration;
+}
+
+#shortBreakInput {
+    grid-area: short-break-duration;
+}
+
+#longBreakInput {
+    grid-area: long-break-duration;
+}
+
+.duration-settings {
+    margin-top: 0.5rem;
+    width: 4ch;
+    height: 2rem;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--theme-accent-color);
+}
+
+input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+    font-family: var(--all-text-font);
+    font-size: var(--timer-text-size);
+    color: #3D4C52;
+    padding: 4px;
+}
+
+input[type="number"]:focus {
+    outline: none;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+    -webkit-appearance: inner-spin-button; /* Hides default spinner */
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    opacity: 0;
+    transition: opacity 200ms ease-out;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="number"]:hover::-webkit-inner-spin-button,
+input[type="number"]:hover::-webkit-outer-spin-button {
+    opacity: 1;
+    transition: opacity 200ms ease-out;
+}
+
+/* Optional: Add hover effect for better visibility */
+input[type="number"]::-webkit-inner-spin-button:hover,
+input[type="number"]::-webkit-outer-spin-button:hover {
+    background: rgba(61, 76, 82, 0.1); /* Light hover effect */
+}
+
+#theme-settings {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(2, auto);
+    grid-template-areas:
+    "theme-settings-instruction theme-settings-instruction"
+    "theme-options theme-options";
+    font-size: var(--timer-text-size);
+    margin-bottom: 2rem;
+}
+
+#theme-settings-instruction {
+    grid-area: theme-settings-instruction;
+}
+
+#theme-settings ul {
+    grid-area: theme-options;
+    display: flex;
+}
+
+#green-light-theme {
+    width: 55px;
+    height: 55px;
+    background-image: linear-gradient(to bottom, #acc3ad, white, white);
+    background-size: cover;
+    border-radius: 50%;
+    border: 4px solid #ACC3AD;
+    transition: border 150ms ease-in;
+    margin-right: 1.5rem;
+    cursor: pointer;
+}
+
+#green-light-theme:hover {
+    border: 6px solid #ACC3AD;
+    transition: border 150ms ease-in;
+}
+
+#blue-light-theme {
+    width: 55px;
+    height: 55px;
+    background-image: linear-gradient(to bottom, #BFD5D9, white, white);
+    background-size: cover;
+    border-radius: 50%;
+    border: 4px solid #BFD5D9;
+    transition: border 150ms ease-in;
+    margin-right: 1.5rem;
+    cursor: pointer;
+}
+
+#blue-light-theme:hover {
+    border: 6px solid #BFD5D9;
+    transition: border 150ms ease-in;
+}
+
+#green-dark-theme {
+    width: 55px;
+    height: 55px;
+    background-image: linear-gradient(to bottom, #344146, #3D4C52, #637074);
+    background-size: cover;
+    border-radius: 50%;
+    border: 4px solid #ACC3AD;
+    transition: border 150ms ease-in;
+    margin-right: 1.5rem;
+    cursor: pointer;
+}
+
+#green-dark-theme:hover {
+    border: 6px solid #ACC3AD;
+    transition: border 150ms ease-in;
+}
+
+#blue-dark-theme {
+    width: 55px;
+    height: 55px;
+    background-image: linear-gradient(to bottom, #344146, #3D4C52, #637074);
+    background-size: cover;
+    border-radius: 50%;
+    border: 4px solid #BFD5D9;
+    transition: border 150ms ease-in;
+    cursor: pointer;
+}
+
+#blue-dark-theme:hover {
+    border: 6px solid #BFD5D9;
+    transition: border 150ms ease-in;
+}
+
+.green-light-theme-set {
+    --bg-gradient: linear-gradient(to bottom, #ACC3AD, white, white);
+    --theme-accent-color:#ACC3AD;
+}
+
+.blue-light-theme-set {
+    --bg-gradient: linear-gradient(to bottom, #BFD5D9, white);
+    --theme-accent-color:#BFD5D9;
+}
+
+.green-dark-theme-set {
+    --bg-gradient: linear-gradient(to bottom, #344146, #3D4C52, #637074);
+    --theme-accent-color:#ACC3AD;
+    --text-color: #D2DBDA;
+    --dark-theme-accent-color: #ACC3AD;
+
+    #progress-percentage {
+        color: #3D4C52;
+    }
+
+    #close-button i {
+        color: #637074;
+    }
+
+    #close-button i:hover {
+        color: #D2DBDA;
+    }
+
+    #signature {
+        color: #9BA6A7;
+    }
+
+    #signature a {
+        color: #9BA6A7;
+    }
+
+}
+
+.blue-dark-theme-set {
+    --bg-gradient: linear-gradient(to bottom, #344146, #3D4C52, #637074);
+    --theme-accent-color:#BFD5D9;
+    --text-color: #D2DBDA;
+    --dark-theme-accent-color: #BFD5D9;
+
+    #progress-percentage {
+        color: #3D4C52;
+    }
+
+    #close-button i {
+        color: #637074;
+    }
+
+    #close-button i:hover {
+        color: #D2DBDA;
+    }
+
+    #signature {
+        color: #c7e0e2;
+    }
+
+    #signature a {
+        color: #9BA6A7;
+    }
+}
+
+#save-button {
+    cursor: default;
+}
+
+#save-button span {
+    cursor: pointer;
+    transition: var(--hover-text-transition);
+    font-weight: 400;
+}
+
+#save-button span:hover {
+    transition: var(--hover-text-transition);
+    font-weight: 700;
+}
+
+/* Signature */
+#signature {
+    grid-area: signature;
+    font-size: 2rem;
+    text-align: right;
+    margin-right: 0px;
+    margin-bottom: 7px;
+    color: var(--theme-accent-color);
+}
+
+#signature a {
+    color: var(--theme-accent-color);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/*Media queries*/
+
+/*Laptop*/
+@media only screen and (max-width: 1350px) {
+    #pomodoro-settings {
+        font-size: 1.4rem;
+    }
+    
+    #short-break-settings {
+        font-size: 1.4rem;
+    }
+    
+    #long-break-settings {
+        font-size: 1.4rem;
+    }
+}
+
+/*Laptop small*/
+@media only screen and (max-width: 1100px) {
+    #quote-generator {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
+        grid-template-areas:
+        "quote"
+        "quote-author";
+    }
+
+    .timer-setup {
+        grid-area: timer-setup;
+        display: grid;
+        grid-template-columns: 350px 1fr;
+        grid-template-rows: 0.8fr 90px 96.3px 128.8px 58px 31px 1fr;
+        grid-template-areas:
+        ". ."
+        "timer-instruction ."
+        "timer-selector ."
+        "timer ."
+        "timer-controls ."
+        "progress-bar ."
+        ". .";
+    }
+
+    #timer-settings {
+        grid-template-columns: repeat(3, 1fr);
+        grid-template-areas:
+        "timer-settings-instruction timer-settings-instruction close-button"
+        "pomodoro-settings short-break-settings long-break-settings"
+        "pomodoro-duration short-break-duration long-break-duration";
+    }
+}
+
+/*Tablet Landscape*/
+@media only screen and (max-width: 1024px) {
+    :root {
+        --timer-text-size: 1.3rem;
+    }
+
+    .header-name h1 {
+        font-size: 3rem;
+    }
+
+    #logo {
+        height: 100px;
+        width: auto;
+    }
+
+    .timer-setup {
+        grid-template-columns: 300px 1fr;
+        grid-template-rows: 0.8fr 70px 75px 110px 50px 31px 1fr;
+        grid-template-areas:
+        ". ."
+        "timer-instruction ."
+        "timer-selector ."
+        "timer ."
+        "timer-controls ."
+        "progress-bar ."
+        ". .";
+    }
+
+    .timer {
+        font-size: 4.7rem;
+    }
+
+    #timer-controls {
+        height: 2rem;
+    }
+
+    #progress-bar {
+        height: 1.5rem;
+    }
+    
+    #quote {
+        font-size: 1.5rem;
+        margin-left: 1rem;
+    }
+    
+    #quote-author {
+        font-size: 1.5rem;
+        margin-left: 1rem;
+    }
+
+    #timer-settings-instruction {
+        margin-top: 4.4rem;
+    }
+
+    #close-button {
+        margin-top: 4.4rem;
+    }
+
+    #pomodoro-settings {
+        font-size: 1.3rem;
+    }
+    
+    #short-break-settings {
+        font-size: 1.3rem;
+    }
+    
+    #long-break-settings {
+        font-size: 1.3rem;
+    }
+
+    #signature {
+        font-size: 1rem;
+    }
+}
+
+/*Tablet Portrait*/
+@media only screen and (max-width: 920px) {
+    header {
+        padding: 1rem 0 0 0;
+    }
+
+    .header-name {
+        margin-left: 3rem;
+    }
+
+    .nav-container {
+        margin-right: 3rem;
+    }
+
+    .timer-setup {
+        margin-left: 3rem;
+    }
+
+    #quote-generator {
+        margin-right: 3rem;
+    }
+
+    #settings-content {
+        margin-right: 3rem;
+    }
+
+
+}
+
+@media only screen and (max-width: 480px) {
+
+
+}
+
+.glass-nav {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 1rem 2rem;
+    margin: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+.nav-container ul li #signature-link {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: 400;
+    transition: var(--hover-text-transition);
+    cursor: pointer;
+}
+
+.nav-container ul li #signature-link:hover {
+    font-weight: 700;
+    transition: var(--hover-text-transition);
+}
+
+.subheader {
+    display: none;
+}

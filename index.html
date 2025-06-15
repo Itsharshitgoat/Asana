@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" class="green-theme-set">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A Lumon Industries' themed Pomodoro timer.">
+    <meta property="og:title" content="Pomodoro Interval Process">
+    <meta property="og:description" content="A structured Pomodoro workflow for increased productivity.">
+    <meta property="og:image" content="./assets/preview-image.jpg">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourwebsite.com">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Michroma&display=swap" rel="stylesheet">
+    
+    <link rel="icon" href="https://static.vecteezy.com/system/resources/previews/054/587/433/non_2x/minimalist-wall-clock-render-icon-in-simple-design-free-png.png" type="image/png">
+    <link href="./styles.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <title>Asana</title>
+</head>
+<body>
+    <header>
+        <nav class="glass-nav">
+            <div class="header-name">
+                <h1>Asana</h1>
+            </div>
+            <div class="nav-container" role="navigation" aria-label="Main Navigation">
+                <ul>
+                    <li><a href="https://itsharshitgoat.github.io/Website/" id="signature-link">Made with love by Harshit</a></li>
+                    <li><a href="#settings-content" id="settings">Settings</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <div class="timer-setup">
+        <div class="timer-instruction">Select an activity and 'Start'</div>
+        <div class="timer-selector">
+            <ul>
+                <li id="pomodoro" tabindex="0">Pomodoro</li>
+                <li id="short-break" tabindex="0">Short Break</li>
+                <li id="long-break" tabindex="0">Long Break</li>
+            </ul>
+        </div>
+        <div class="timer" aria-live="polite">
+            <div class="minutes"></div>:<div class="seconds"></div>
+        </div>
+        <div id="timer-controls">
+            <button class="button-style" id="start-button">Start</button>
+            <button class="button-style" id="pause-button">Pause</button>
+        </div>
+        <div id="progress-bar">
+            <div id="progress-percentage"></div>
+            <div id="progress-indicator"></div>
+        </div>
+    </div>
+
+    <div id="quote-generator">
+        <p id="quote"></p>
+        <p id="quote-author"></p>
+    </div>
+
+    <div id="settings-content" aria-hidden="true">
+
+        <div id="timer-settings">
+
+            <div class="settings-instruction" id="timer-settings-instruction">Adjust timer's duration:</div>
+            <div id="close-button" tabindex="0" role="button" aria-label="Close settings">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+
+            <label id="pomodoro-settings" for="pomodoro-duration">Pomodoro</label>
+            <label id="short-break-settings" for="short-break-duration">Short Break</label>
+            <label id="long-break-settings" for="long-break-duration">Long Break</label>
+
+            <input type="number" class="duration-settings" id="pomodoroInput" name="pomodoro-duration" value="25" min="1" max="60" maxlength="2" pattern="\d*" inputmode="numeric" aria-label="Pomodoro duration in minutes">
+            <input type="number" class="duration-settings" id="shortBreakInput" name="short-break-duration" value="5" min="1" max="30" maxlength="2" pattern="\d*" inputmode="numeric" aria-label="Short break duration in minutes">
+            <input type="number" class="duration-settings" id="longBreakInput" name="long-break-duration" value="15" min="1" max="60" maxlength="2" pattern="\d*" inputmode="numeric" aria-label="Long break duration in minutes">
+
+        </div>
+
+        <div id="theme-settings">
+            <div class="settings-instruction" id="theme-settings-instruction">Select a theme:</div>
+            <ul>
+                <li><div id="green-light-theme" tabindex="0" role="button" aria-label="Green theme"></div></li>
+                <li><div id="blue-light-theme" tabindex="0" role="button" aria-label="Blue theme"></div></li>
+                <li><div id="green-dark-theme" tabindex="0" role="button" aria-label="Green Dark Theme"></div></li>
+                <li><div id="blue-dark-theme" tabindex="0" role="button" aria-label="Green Dark Theme"></div></li>
+            </ul>
+        </div>
+
+        <button class="button-style" id="save-button" aria-label="Save settings">
+            <span>Save</span>
+        </button>
+        
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
