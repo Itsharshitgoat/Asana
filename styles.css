@@ -60,12 +60,30 @@ header {
 
 .header-name {
     margin-left: 0;
+    display: flex;    /* Ensures proper alignment */
+    align-items: center;
+    height: 100%;     /* Takes full height of nav */
+}
+
+.header-name a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    line-height: 1;  /* Prevents vertical movement */
+    padding: 5px 0;  /* Adds some padding for better touch target */
 }
 
 .header-name h1 {
     font-size: 4rem;
-    line-height: 0.8;
+    line-height: 1;  /* Ensures consistent height */
     color: var(--dark-theme-accent-color);
+    margin: 0;       /* Removes default margin */
+    padding: 0;      /* Removes default padding */
+    transition: transform 0.2s ease;  /* Smooth transform animation */
+}
+
+.header-name a:hover h1 {
+    transform: scale(1.02);  /* Slight zoom effect on hover */
 }
 
 .nav-container {
@@ -768,7 +786,7 @@ input[type="number"]::-webkit-outer-spin-button:hover {
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
-    border-radius: 30px;
+    border-radius: 60px;
     border: 1px solid rgba(255, 255, 255, 0.18);
     padding: 1rem 2rem;
     margin: 1rem 2rem;

@@ -397,4 +397,25 @@ document.addEventListener('DOMContentLoaded', () => {
     applyTheme(savedTheme);
   }
 
+  // Add touch event handlers
+  document.querySelectorAll('button, .timer-selector li, #theme-settings li div').forEach(element => {
+      element.addEventListener('touchstart', function(e) {
+          this.style.opacity = '0.7';
+      });
+
+      element.addEventListener('touchend', function(e) {
+          this.style.opacity = '1';
+      });
+  });
+
+  // Prevent double-tap zoom on interactive elements
+  document.querySelectorAll('button, a, .timer-selector li').forEach(element => {
+      element.addEventListener('touchend', function(e) {
+          e.preventDefault();
+          if (this.click) {
+              this.click();
+          }
+      });
+  });
+
 });
