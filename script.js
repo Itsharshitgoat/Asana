@@ -1,4 +1,35 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // QR Code for Mobile Access
+  const qrBtn = document.getElementById('qr-mobile-btn');
+  const qrModal = document.getElementById('qr-modal');
+  const qrCodeDiv = document.getElementById('qr-code');
+  const closeQrModal = document.getElementById('close-qr-modal');
+
+  if (qrBtn && qrModal && qrCodeDiv && closeQrModal) {
+    qrBtn.addEventListener('click', () => {
+      // Get current URL (prefer https if hosted, fallback to github pages if file://)
+      let url = window.location.origin !== 'null' ? window.location.href : 'https://itsharshitgoat.github.io/Asana/';
+      qrModal.style.display = 'flex';
+      // Generate QR code
+      qrCodeDiv.innerHTML = '';
+      const qr = new QRious({
+        element: document.createElement('canvas'),
+        value: url,
+        size: 200,
+        background: 'white',
+        foreground: '#3D4C52',
+        level: 'H'
+      });
+      qrCodeDiv.appendChild(qr.element);
+    });
+    closeQrModal.addEventListener('click', () => {
+      qrModal.style.display = 'none';
+    });
+    // Also close modal on outside click
+    qrModal.addEventListener('click', (e) => {
+      if (e.target === qrModal) qrModal.style.display = 'none';
+    });
+  }
 
   const pomodoro = document.getElementById('pomodoro');
   const shortBreak = document.getElementById('short-break');
@@ -36,12 +67,33 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const selectTimer = (selectedTimer) => {
-
+    // Remove selected class from all options
     pomodoro.classList.remove('timer-selected');
     shortBreak.classList.remove('timer-selected');
     longBreak.classList.remove('timer-selected');
 
+    // Add selected class to clicked option
     selectedTimer.classList.add('timer-selected');
+
+    // On mobile, ensure smooth transitions
+    if (window.innerWidth <= 480) {
+      const elements = [
+        document.querySelector('.timer'),
+        document.getElementById('timer-controls'),
+        document.getElementById('progress-bar'),
+        document.getElementById('quote-generator')
+      ];
+      
+      elements.forEach(el => {
+        if (el) {
+          el.style.transition = 'all 0.3s ease';
+          // Force a reflow to ensure transition works
+          el.offsetHeight;
+          el.classList.add('visible');
+        }
+      });
+    }
+
     updateQuoteVisibility();
   };
 
